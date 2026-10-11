@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NanoBomb</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ================= หน้าเข้าสู่ระบบ ================= -->
+<section id="gate" aria-labelledby="gateTitle">
+  <div class="gate-card">
+    <canvas id="gateBot" width="320" height="320" aria-hidden="true"></canvas>
+    <h1 class="gate-logo" id="gateTitle">NanoBomb</h1>
+    <p>ส่งนาโนบอทลงแผนที่ วางระเบิดทำลายบล็อก แล้วเก็บ NANO กลับมาพัฒนาทีม</p>
+    <p class="pay-note">เข้าเล่นฟรี ไม่มีค่าเข้าเกม<br>ผู้เล่นใหม่รับ <b>10 NANO</b> ฟรีเข้ากระเป๋าทันที</p>
+    <button class="btn coin" id="connectBtn">เชื่อมต่อ MetaMask เพื่อเริ่มเล่น</button>
+    <div id="gateMsg" role="status" aria-live="polite"></div>
+    <div class="gate-net">ต้องเชื่อมกระเป๋าบน BNB Smart Chain Testnet ก่อนเข้าเล่น</div>
+  </div>
+</section>
+
+<!-- ================= ตัวเกม ================= -->
+<div id="app" hidden>
+  <header class="topbar">
+    <div class="logo">NanoBomb</div>
+    <span class="res" title="NANO ในเกม"><span class="ico-coin"></span>NANO <b id="nanoVal">0</b></span>
+    <span class="res" title="ชิป ใช้อัปเกรดบ้าน"><span class="ico-chip"></span>ชิป <b id="chipVal">0</b></span>
+    <span class="wallet-chip"><i></i><span id="addrShort">0x…</span></span>
+  </header>
+
+  <main class="layout">
+    <section class="stage" aria-labelledby="stageTitle">
+      <div class="stage-head">
+        <h2 id="stageTitle">Treasure Hunt ด่าน <span id="stageNo">1</span></h2>
+        <span class="sub">บล็อกเหลือ <b id="blocksLeft">0</b></span>
+      </div>
+      <div class="canvas-wrap"><canvas id="map" aria-label="แผนที่ Treasure Hunt"></canvas></div>
+      <div class="stage-foot">
+        <span>ฮีโร่ในแผนที่ <b id="workCount">0</b>/<span id="maxWork">15</span></span>
+        <label class="toggle"><input type="checkbox" id="autoWork"> ส่งกลับไปทำงานเองเมื่อพลังเต็ม</label>
+        <div class="quick">
+          <button class="btn small" id="allWork">ส่งทุกตัวไปทำงาน</button>
+          <button class="btn small ghost" id="allRest">เรียกทุกตัวกลับ</button>
+        </div>
+      </div>
+    </section>
+
+    <aside class="side">
+      <nav class="tabs" role="tablist">
+        <button role="tab" aria-selected="true" data-tab="heroes">ฮีโร่</button>
+        <button role="tab" aria-selected="false" data-tab="house">บ้าน</button>
+        <button role="tab" aria-selected="false" data-tab="shop">ร้านค้า</button>
+        <button role="tab" aria-selected="false" data-tab="wallet">กระเป๋า</button>
+      </nav>
+
+      <div class="tabpanel" id="tab-heroes" role="tabpanel">
+        <div class="summon-box">
+          <div><strong>สุ่มฮีโร่ใหม่</strong><small>10 NANO ต่อครั้ง มีโอกาสได้ Mythic 2%</small></div>
+          <button class="btn coin" id="summonBtn">สุ่ม 10 NANO</button>
+        </div>
+        <div id="heroList"></div>
+      </div>
+
+      <div class="tabpanel" id="tab-house" role="tabpanel" hidden></div>
+      <div class="tabpanel" id="tab-shop" role="tabpanel" hidden></div>
+      <div class="tabpanel" id="tab-wallet" role="tabpanel" hidden></div>
+    </aside>
+  </main>
+</div>
+
+<div id="modal" hidden></div>
+<div id="toasts" aria-live="polite"></div>
+
+<script src="game.js"></script>
+</body>
+</html>
